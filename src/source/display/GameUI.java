@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 
 import source.main.Handler;
 import source.support.Assets;
+import source.support.Settings;
 import source.ui.ClickListener;
 import source.ui.UIManager;
 import source.ui.UITextHolder;
@@ -78,6 +79,16 @@ public class GameUI {
 		topBar.setText("(Q) Menu");
 	}
 	
+	public void updateTopBar()
+	{
+		int manpower = handler.getPlayers()[Settings.PLAYER_ZERO].getManpower();
+		int pop = handler.getPlayers()[Settings.PLAYER_ZERO].getPopulation();
+		int food = handler.getPlayers()[Settings.PLAYER_ZERO].getFood();
+		int wood = handler.getPlayers()[Settings.PLAYER_ZERO].getWood();
+		int stone = handler.getPlayers()[Settings.PLAYER_ZERO].getStone();
+		topBar.setText("(Q) Menu,                                              Pop= " + pop + " * Manpower= "+manpower+" * Food= " + food + " * Wood= " + wood + " * Stone= " + stone);
+	}
+	
 	public void checkKeys()
 	{
 		// left bar toggle Q
@@ -85,6 +96,8 @@ public class GameUI {
 		{
 			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
 				toggleLeft();
+			if (handler.getGame().getTutorial().getStage() == 1)
+	    		handler.getGame().getTutorial().completeStage();
 		}
 		
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L))
@@ -96,6 +109,7 @@ public class GameUI {
 	
 	public void update() {
 		uiManager.update();
+		updateTopBar();
 		checkKeys();
 	}
 

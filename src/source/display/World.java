@@ -9,8 +9,6 @@ import source.file.WorldLoader;
 import source.main.Handler;
 import source.main.Tile;
 import source.support.Assets;
-import source.support.Text;
-import source.ui.UITextHolder;
 
 public class World {
 	

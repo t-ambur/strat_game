@@ -30,8 +30,8 @@ public class Timer extends Clock {
 		if (secondPassed())
 		{
 			super.elapseSec();
-			if (printClock && super.isTicking())
-				super.printTime();
+			//if (printClock && super.isTicking())
+			//	super.printTime();
 			manageSecond(printTimer);
 		}
 	}

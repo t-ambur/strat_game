@@ -52,7 +52,9 @@ public class GameState extends State {
 			System.exit(0);
 		
 		world.update();
+		onTop.update();
 		gameUI.update();
+		handler.getActionHandler().update();
 		// if the tutorial is enabled
 		if (handler.getGame().getTutorial().ENABLED)
 		{

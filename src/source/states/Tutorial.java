@@ -34,6 +34,7 @@ public class Tutorial {
 	public void increaseStage()
 	{
 		stage++;
+		stageComplete = false;
 		checkTutorial();
 	}
 	
@@ -82,7 +83,11 @@ public class Tutorial {
 		}
 		else if (stage == 1)
 		{
-			ui.changeText(GameUI.MSG, "Press \"Q\" to open menu.");
+			ui.changeText(GameUI.MSG, "Notice your empire's resources and the\ncurrent date on the top bar.\nYour population will consume an equal\namount of food at the end of each month.\nPress \"Q\" to open menu.");
+		}
+		else if (stage == 2)
+		{
+			ui.changeText(GameUI.MSG, "Various actions for this city are displayed.\nNotice you have un-used manpower\nThis means you have unemployed citizens.\nSelect a task from the menu to employ them.");
 		}
 	}
 }

@@ -24,6 +24,10 @@ public class Clock {
 			minutes = 0;
 			hours = 0;
 			days = 0;
+			
+			gameDay = 1;
+			gameMonth = 1;
+			gameYear = 0;
 		}
 		
 		public void start()
@@ -144,5 +148,20 @@ public class Clock {
 		public boolean isPaused()
 		{
 			return paused;
+		}
+		
+		public int getGameDay()
+		{
+			return gameDay;
+		}
+		
+		public int getGameMonth()
+		{
+			return gameMonth;
+		}
+		
+		public int getGameYear()
+		{
+			return gameYear;
 		}
 }

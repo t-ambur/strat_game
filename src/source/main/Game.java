@@ -14,7 +14,6 @@ import source.states.MenuState;
 import source.states.State;
 import source.states.Tutorial;
 import source.support.Assets;
-import source.support.Events;
 import source.support.Settings;
 import source.support.Timer;
 

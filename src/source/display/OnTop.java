@@ -21,4 +21,9 @@ public class OnTop {
 		for (int i = 0; i < cities.size(); i++)
 			cities.get(i).render(g);
 	}
+	
+	public void update()
+	{
+		
+	}
 }
