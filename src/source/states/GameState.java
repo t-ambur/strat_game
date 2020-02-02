@@ -39,11 +39,7 @@ public class GameState extends State {
 	{
 		if (handler.getGame().TUT_ON)
 		{
-			String firstMsg = "Click a tile to start a city on.\nYou can toggle this log with the \"L\" key\nYou can move the camera with WASD\n or the mouse\nZooming will turn off the UI";
-			firstMsg += "\nZoom with the scrollwheel or PG UP/DOWN\nIf you get lost, press HOME to center on the\n map\nYou can also press the middle mouse button to\n reset zoom";
-			gameUI.toggleMsg();
-			gameUI.changeTitle(GameUI.MSG, "Tutorial");
-			gameUI.changeText(GameUI.MSG, firstMsg);
+			handler.getGame().getTutorial().setUI(gameUI);
 		}
 	}
 	
@@ -62,8 +58,7 @@ public class GameState extends State {
 		{
 			if (handler.getGame().getTutorial().isStageComplete())
 			{
-				handler.getGame().getTutorial().checkStage();
-				checkTutRequirement();
+				handler.getGame().getTutorial().increaseStage();
 			}
 		}
 	}
@@ -78,13 +73,5 @@ public class GameState extends State {
 		// RENDER THE MOUSE CURSOR LAST
         g.drawImage(Assets.cursorImg, (int) ((vMx - Settings.cursorImgMiddleWidth) - handler.getCamera().getxOffset()),
         		(int) (vMy - Settings.cursorImgMiddleHeight - handler.getCamera().getyOffset()), null);
-	}
-	
-	public void checkTutRequirement()
-	{
-		int stage = handler.getGame().getTutorial().getStage();
-		
-		if (stage == 1)
-			gameUI.changeText(GameUI.MSG, "Press \"Q\" to open menu.");
 	}
 }

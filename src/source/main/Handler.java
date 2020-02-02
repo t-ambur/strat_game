@@ -26,6 +26,10 @@ public class Handler {
 		return game.getKeyManager();
 	}
 	
+	public Player[] getPlayers() {
+		return game.getPlayers();
+	}
+	
 	public ActionHandler getActionHandler() {
 		return actionH;
 	}

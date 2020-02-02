@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import source.support.Events;
+import source.support.Settings;
 
 
 public class ActionHandler {
@@ -34,8 +35,10 @@ public class ActionHandler {
 		if (Events.cityPlaced == false && selected != null)
 		{
 			Events.cityPlaced = true;
-			cities.add(new City(selectedTile,handler));
+			cities.add(new City(selectedTile, handler, handler.getPlayers()[Settings.PLAYER_ZERO]));
 			System.out.println("starting city placed!");
+			if (handler.getGame().getTutorial().getStage() == 0)
+        		handler.getGame().getTutorial().completeStage();
 		}
 	}
 	

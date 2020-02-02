@@ -231,8 +231,6 @@ public class World {
 		// if the player has clicked a tile
         if (selectedTile != null)
         {
-        	if (handler.getGame().getTutorial().getStage() == 0)
-        		handler.getGame().getTutorial().completeStage();
         	int blinkTime = (int) (System.currentTimeMillis() / 500);
         	if ((blinkTime % 2) == 0)
         		g.drawImage(Assets.tileSelectorImg, (int) (selectedTile.getX() - handler.getCamera().getxOffset()),

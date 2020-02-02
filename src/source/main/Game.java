@@ -14,6 +14,7 @@ import source.states.MenuState;
 import source.states.State;
 import source.states.Tutorial;
 import source.support.Assets;
+import source.support.Events;
 import source.support.Settings;
 import source.support.Timer;
 
@@ -33,6 +34,8 @@ public class Game implements Runnable {
 	//States
 	public State gameState;
 	public State menuState;
+	
+	public Player[] players;
 	
 	//Input
 	private KeyManager keyManager;
@@ -62,6 +65,8 @@ public class Game implements Runnable {
 		handler = new Handler(this);
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager(handler);
+		players = new Player[Settings.NUMBER_PLAYERS];
+		players[0] = new Player(Settings.PLAYER_ZERO);
 	}
 	// The order of init is important
 	private void init(){
@@ -91,12 +96,12 @@ public class Game implements Runnable {
 		camera = new Camera(handler, 0, 0);
 		timer = new Timer();
 		
+		// true turns on tutorial, false turns off
+		tutorial = new Tutorial(handler, TUT_ON);
+		
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
 		State.setState(menuState);
-		
-		// true turns on tutorial, false turns off
-		tutorial = new Tutorial(handler, TUT_ON);
 	}
 	
 	public void reset()
@@ -189,6 +194,11 @@ public class Game implements Runnable {
 	
 	public int getWidth(){
 		return width;
+	}
+	
+	public Player[] getPlayers()
+	{
+		return players;
 	}
 	
 	public int getHeight(){

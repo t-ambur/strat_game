@@ -28,6 +28,9 @@ public final class Settings {
 	
 	private static boolean fullScreen;
 	
+	public static final int NUMBER_PLAYERS = 3;
+	public static final int PLAYER_ZERO = 0;
+	
 	private Settings() { }
 	
 	public static void init(int screenWidth, int screenHeight, boolean fs)
