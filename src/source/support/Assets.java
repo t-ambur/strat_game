@@ -51,6 +51,9 @@ public class Assets {
     
     public static BufferedImage tileErrorImg;
     
+    // On top of tiles
+    public static BufferedImage campImg;
+    
     // UI
     public static BufferedImage topBarImg;
     public static BufferedImage leftBarImg;
@@ -108,7 +111,7 @@ public class Assets {
         res1024 = ImageLoader.loadImage("/text/res1024.png");
         
         // game images
-        cursorImg = ImageLoader.loadImage("/images/sight.png");
+        cursorImg = ImageLoader.loadImage("/images/cursor.png");
         
         // tiles
         tileSelectorImg = ImageLoader.loadImage("/images/tileSelector2.png");
@@ -123,6 +126,9 @@ public class Assets {
         tileSnowImg = ImageLoader.loadImage("/images/tile08t.png");
         
         tileErrorImg = ImageLoader.loadImage("/images/loadErrorTile.png");
+        
+        // on top of tiles
+        campImg = ImageLoader.loadImage("/images/camp.png");
         
         // in-game ui
         topBarImg = ImageLoader.loadImage("/ui/topBar.png");

@@ -11,9 +11,11 @@ public class Handler {
 	
 	private Game game;
 	private World world;
+	private ActionHandler actionH;
 	
 	public Handler(Game game){
 		this.game = game;
+		this.actionH = new ActionHandler(this);
 	}
 	
 	public Camera getCamera(){
@@ -22,6 +24,10 @@ public class Handler {
 	
 	public KeyManager getKeyManager(){
 		return game.getKeyManager();
+	}
+	
+	public ActionHandler getActionHandler() {
+		return actionH;
 	}
 	
 	public MouseManager getMouseManager(){

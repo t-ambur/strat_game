@@ -3,6 +3,7 @@ package source.states;
 import java.awt.Graphics2D;
 
 import source.display.GameUI;
+import source.display.OnTop;
 import source.display.World;
 import source.file.FileData;
 import source.main.Handler;
@@ -14,6 +15,7 @@ import source.ui.UITextHolder;
 public class GameState extends State {
 	
 	private World world;
+	private OnTop onTop;
 	// The UI that appears above the map
 	private GameUI gameUI;
 	
@@ -25,6 +27,7 @@ public class GameState extends State {
 		super(handler);
 		gameUI = new GameUI(handler);
 		world = new World(handler, FileData.GREECE, gameUI);
+		onTop = new OnTop(handler);
 		handler.setWorld(world);
 		
 		vMx = handler.getMouseManager().getVMouseX();
@@ -68,6 +71,7 @@ public class GameState extends State {
 	@Override
 	public void render(Graphics2D g) {
 		world.render(g);
+		onTop.render(g);
 		gameUI.render(g);
 		// the clock
 		Text.drawString(g, handler.getClock().toStringGame(), handler.getWidth() - 310, 34, false, UITextHolder.DEFAULT_COLOR, UITextHolder.DEFAULT_FONT);

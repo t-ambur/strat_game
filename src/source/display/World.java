@@ -109,6 +109,7 @@ public class World {
             		}
             	}
             }
+			handler.getActionHandler().updateTile(selectedTile, prvSelectedTile);
 		}
 		
 		
