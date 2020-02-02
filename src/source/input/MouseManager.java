@@ -142,7 +142,9 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if(e.getButton() == MouseEvent.BUTTON1)
+		{
 			leftPressed = true;
+		}
 		else if(e.getButton() == MouseEvent.BUTTON2)
 			middlePressed = true;
 		else if(e.getButton() == MouseEvent.BUTTON3)

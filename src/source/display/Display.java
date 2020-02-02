@@ -53,9 +53,9 @@ public class Display {
 		canvas.setBackground(Color.black);
 		
 		// make the default cursor blank
-		BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(blankCursorImg, new Point(0, 0), null);
-        canvas.setCursor(blankCursor);
+		//BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        //Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(blankCursorImg, new Point(0, 0), null);
+        //canvas.setCursor(blankCursor);
 		
 		frame.add(canvas);
 		frame.pack();

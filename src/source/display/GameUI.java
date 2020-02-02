@@ -39,7 +39,7 @@ public class GameUI {
 	public static final int BIGBOX_OFFSET = 350, BIGBOX_Y_OFFSET = 50;
 	
 	// buttons
-	public static final int BUTTON_W = 150, BUTTON_H = 100;
+	public static final int BUTTON_W = 150, BUTTON_H = 100; //150 100
 	
 	public static final int FOODBUTTON_X_OFFSET = BIGBOX_OFFSET + 10, FOODBUTTON_Y_OFFSET = BIGBOX_Y_OFFSET + 35;
 	
