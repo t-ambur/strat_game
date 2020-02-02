@@ -55,14 +55,6 @@ public class GameState extends State {
 		onTop.update();
 		gameUI.update();
 		handler.getActionHandler().update();
-		// if the tutorial is enabled
-		if (handler.getGame().getTutorial().ENABLED)
-		{
-			if (handler.getGame().getTutorial().isStageComplete())
-			{
-				handler.getGame().getTutorial().increaseStage();
-			}
-		}
 	}
 
 	@Override

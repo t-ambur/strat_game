@@ -3,6 +3,8 @@ package source.support;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
+import source.main.Tile;
+
 // Settings contains some specific information about the game
 public final class Settings {
 	
@@ -30,6 +32,16 @@ public final class Settings {
 	
 	public static final int NUMBER_PLAYERS = 3;
 	public static final int PLAYER_ZERO = 0;
+	
+	public static final int T_OCEAN = 0;
+	public static final int T_PLAINS = 1;
+	public static final int T_BEACH = 2;
+	public static final int T_FOREST = 3;
+	public static final int T_SWAMP = 4;
+	public static final int T_MOUNTAIN = 5;
+	public static final int T_LAKE = 6;
+	public static final int T_DESERT = 7;
+	public static final int T_SNOW = 8;
 	
 	private Settings() { }
 	

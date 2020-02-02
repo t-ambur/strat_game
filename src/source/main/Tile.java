@@ -3,6 +3,8 @@ package source.main;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import source.support.Settings;
+
 public class Tile {
 	
 	// static related to Tile
@@ -21,6 +23,7 @@ public class Tile {
 	private int x; // x-coordinate where this tile is located
 	private int y; // y-coordinate where this tile is located
 
+	private City city;
 	private boolean hasCity;
 	
 	public Tile(int t, int x, int y, BufferedImage img, int id)
@@ -50,12 +53,22 @@ public class Tile {
 	
 	public void init()
 	{
+		city = null;
 		hasCity = false;
 	}
 	
-	public void addCity()
+	public void addCity(City c)
 	{
 		hasCity = true;
+		this.city = c;
+	}
+	
+	public City getCity()
+	{
+		if (isCityPresent())
+			return city;
+		else
+			return null;
 	}
 	
 	public boolean isCityPresent()
@@ -134,6 +147,29 @@ public class Tile {
 		}
 		else
 			return false;
+	}
+	
+	public String getTerrainString()
+	{
+		if (terrain == Settings.T_BEACH)
+			return "Beach";
+		else if (terrain == Settings.T_PLAINS)
+			return "Plains";
+		else if (terrain == Settings.T_DESERT)
+			return "Desert";
+		else if (terrain == Settings.T_FOREST)
+			return "Forest";
+		else if (terrain == Settings.T_LAKE)
+			return "Lake";
+		else if (terrain == Settings.T_MOUNTAIN)
+			return "Mountain";
+		else if (terrain == Settings.T_OCEAN)
+			return "Ocean";
+		else if (terrain == Settings.T_SNOW)
+			return "Snow";
+		else if (terrain == Settings.T_SWAMP)
+			return "Swamp";
+		return "Error";
 	}
 
 }

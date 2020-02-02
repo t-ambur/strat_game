@@ -13,6 +13,7 @@ public abstract class UIObject implements ClickListener {
 	protected float x, y;
 	protected int width, height;
 	protected Rectangle bounds;
+	protected Rectangle gameBounds;
 	protected boolean hovering = false;
 	protected boolean hide = false;
 	
@@ -22,6 +23,7 @@ public abstract class UIObject implements ClickListener {
 		this.width = width;
 		this.height = height;
 		bounds = new Rectangle((int) x, (int) y, width, height);
+		topInit();
 	}
 	
 	public UIObject(Rectangle rect){
@@ -30,6 +32,7 @@ public abstract class UIObject implements ClickListener {
 		this.width = (int) rect.getWidth();
 		this.height = (int) rect.getHeight();
 		bounds = new Rectangle((int) x, (int) y, width, height);
+		topInit();
 	}
 	
 	public UIObject(Rectangle rect, Handler handler){
@@ -40,6 +43,12 @@ public abstract class UIObject implements ClickListener {
 		bounds = new Rectangle((int) x, (int) y, width, height);
 		
 		this.handler = handler;
+		topInit();
+	}
+	
+	public void topInit()
+	{
+		// nothing
 	}
 	
 	public abstract void update();
@@ -58,6 +67,7 @@ public abstract class UIObject implements ClickListener {
 		}
 		else
 		{
+			gameBounds = new Rectangle((int) (x - handler.getCamera().getxOffset()) , (int) (y - handler.getCamera().getyOffset()),width,height);
 			if(bounds.contains(handler.getMouseManager().getVMouseX(), handler.getMouseManager().getVMouseY()))
 				hovering = true;
 			else

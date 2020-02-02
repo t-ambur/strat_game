@@ -45,6 +45,7 @@ public class ActionHandler {
 		City starting = new City(selectedTile, handler, handler.getPlayers()[Settings.PLAYER_ZERO],0);
 		cities.add(starting);
 		handler.getPlayers()[Settings.PLAYER_ZERO].addCity(starting);
+		selectedTile.addCity(starting);
 		starting.addManpower(10);
 		starting.addPopulation(10);
 		starting.addFood(100);

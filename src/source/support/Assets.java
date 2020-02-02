@@ -59,6 +59,11 @@ public class Assets {
     public static BufferedImage leftBarImg;
     public static BufferedImage messageImg;
     public static BufferedImage logImg;
+    public static BufferedImage bigBoxImg;
+    
+    // UI buttons
+    public static BufferedImage[] buttonImgs;
+    
     
 	public static void init(){
 		
@@ -77,6 +82,8 @@ public class Assets {
         minusImgs = new BufferedImage[2];
         fullscreenImgs = new BufferedImage[2];
         windowedImgs = new BufferedImage[2];
+        
+        buttonImgs = new BufferedImage[2];
         
         newGImgs[0] = ImageLoader.loadImage("/button/nbutton.png");
         newGImgs[1] = ImageLoader.loadImage("/button/nbuttonh.png");
@@ -135,6 +142,11 @@ public class Assets {
         leftBarImg = ImageLoader.loadImage("/ui/leftBar.png");
         messageImg = ImageLoader.loadImage("/ui/message.png");
         logImg = ImageLoader.loadImage("/ui/log.png");
+        bigBoxImg = ImageLoader.loadImage("/ui/bigBox.png");
+        
+        // in-game buttons
+        buttonImgs[0] = ImageLoader.loadImage("/button/button.png");
+        buttonImgs[1] = ImageLoader.loadImage("/button/buttonh.png");
 		
         tnr20 = FontLoader.loadFont("resources/text/tnr.ttf", 20);
         tnr24 = FontLoader.loadFont("resources/text/tnr.ttf", 24);

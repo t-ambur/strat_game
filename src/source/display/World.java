@@ -75,7 +75,7 @@ public class World {
 		virtualMP.setLocation((int)vMx, (int)vMy);
 		
 		// if the left mouse button is clicked, search all the tiles and see if the mouse is inside them. Uses 4 rectangles to make the clicking more accurate
-		if (handler.getMouseManager().isLeftPressed())
+		if (handler.getMouseManager().isLeftPressed() && !gameUI.isBigBoxActive())
 		{
 			for(int i = 0; i < tileSet.length; i++)
             {

@@ -9,8 +9,13 @@ import source.main.Handler;
 import source.support.Assets;
 import source.support.Settings;
 import source.ui.ClickListener;
+import source.ui.UIImageButton;
 import source.ui.UIManager;
 import source.ui.UITextHolder;
+import source.ui.UITextButton;
+import source.main.Tile;
+import source.states.State;
+import source.main.City;
 
 public class GameUI {
 	
@@ -20,11 +25,25 @@ public class GameUI {
 	private UITextHolder topBar;
 	private UITextHolder leftBar;
 	private UITextHolder msg;
-	public static final int TOP_BAR = 0, LEFT_BAR = 1, MSG = 2;
+	private UITextHolder bigBox;
+	
+	private UITextButton foodButton;
+	
+	public static final int TOP_BAR = 0, LEFT_BAR = 1, MSG = 2, BIG_BOX = 3;
 	
 	public static final int MSG_WIDTH = 500, MSG_HEIGHT = 400;
+	public static final int BIGBOX_W = 1050, BIGBOX_H = 1000;
 	public static final int LEFT_WIDTH = 300;
 	public static final int LOG_W = 50, LOG_H = 30;
+	
+	public static final int BIGBOX_OFFSET = 350, BIGBOX_Y_OFFSET = 50;
+	
+	// buttons
+	public static final int BUTTON_W = 150, BUTTON_H = 100;
+	
+	public static final int FOODBUTTON_X_OFFSET = BIGBOX_OFFSET + 10, FOODBUTTON_Y_OFFSET = BIGBOX_Y_OFFSET + 35;
+	
+	private boolean bigBoxActive;
 	
 	public GameUI(Handler handler)
 	{
@@ -40,6 +59,10 @@ public class GameUI {
 		Rectangle topBarRect = new Rectangle(0,0,handler.getWidth(),45);
 		Rectangle leftBarRect = new Rectangle(0+handler.getCamera().BOUND_SIZE,0,LEFT_WIDTH,handler.getHeight());
 		Rectangle messageRect = new Rectangle(handler.getWidth() - MSG_WIDTH,handler.getHeight() - MSG_HEIGHT,MSG_WIDTH,MSG_HEIGHT);
+		Rectangle bigBoxRect = new Rectangle(BIGBOX_OFFSET,BIGBOX_Y_OFFSET,BIGBOX_W,BIGBOX_H);
+		
+		// Rectangles to hold the button info
+		Rectangle foodButtonRect = new Rectangle(FOODBUTTON_X_OFFSET, FOODBUTTON_Y_OFFSET, BUTTON_W, BUTTON_H);
 		
 		// info at top of screen
 		topBar = new UITextHolder(topBarRect, Assets.topBarImg, new Point(10, 5), false, handler, new ClickListener() {
@@ -49,7 +72,7 @@ public class GameUI {
     		}
     	});
 		// base menu for all menus
-		leftBar = new UITextHolder(leftBarRect, Assets.leftBarImg, new Point(0, 0), true, handler, new ClickListener() {
+		leftBar = new UITextHolder(leftBarRect, Assets.leftBarImg, new Point(30, 5), false, handler, new ClickListener() {
     		@Override
     		public void onClick() {
     			// Do nothing
@@ -59,24 +82,39 @@ public class GameUI {
 		msg = new UITextHolder(messageRect, Assets.messageImg, new Point(0,0), false, handler, new ClickListener() {
     		@Override
     		public void onClick() {
-    			System.err.println("yuppers");
+    			// I don't think this works
+    		}
+    	});
+		// holds action buttons
+		bigBox = new UITextHolder(bigBoxRect, Assets.bigBoxImg, new Point(BIGBOX_OFFSET+14, BIGBOX_Y_OFFSET), false, handler, new ClickListener() {
+    		@Override
+    		public void onClick() {
+    			// Do nothing
+    		}
+    	});
+		// buttons
+		foodButton = new UITextButton(foodButtonRect, Assets.buttonImgs, new ClickListener() {
+    		@Override
+    		public void onClick() {
+    			System.out.println("clicked");
     		}
     	});
 		msg.setTextPos((int)(msg.getX() + 10), (int)(msg.getY() + 50));
 		msg.setTitlePos((int)(msg.getX() + 10), (int)(msg.getY() + 28));
-		// init the top bar
-		initTop();
 		// add objects and toggle off menus
 		uiManager.addObject(topBar);
 		uiManager.addObject(leftBar);
 		uiManager.addObject(msg);
+		uiManager.addObject(bigBox);
+		uiManager.addObject(foodButton);
+		//leftBar.setFont(Assets.tnr20);
 		toggleLeft();
 		toggleMsg();
-	}
-	
-	public void initTop()
-	{
-		topBar.setText("(Q) Menu");
+		bigBoxActive = true; // toggle will turn this off
+		//bigBox.setFont(Assets.tnr20);
+		bigBox.setText("Food Button     Wood Button     Stone Button");
+		foodButton.setText("Forage for\nFood");
+		toggleBigBox();
 	}
 	
 	public void updateTopBar()
@@ -86,7 +124,35 @@ public class GameUI {
 		int food = handler.getPlayers()[Settings.PLAYER_ZERO].getFood();
 		int wood = handler.getPlayers()[Settings.PLAYER_ZERO].getWood();
 		int stone = handler.getPlayers()[Settings.PLAYER_ZERO].getStone();
-		topBar.setText("(Q) Menu,                                              Pop= " + pop + " * Manpower= "+manpower+" * Food= " + food + " * Wood= " + wood + " * Stone= " + stone);
+		topBar.setText("(Q) Tile Detail, (E) Action Menu           Pop= " + pop + " * Manpower= "+manpower+" * Food= " + food + " * Wood= " + wood + " * Stone= " + stone);
+	}
+	
+	public void updateLeftBar()
+	{
+		Tile tile = handler.getActionHandler().getSelectedTile();
+		if (tile != null)
+		{
+			String terrain = tile.getTerrainString();
+			int tileID = tile.getTileID();
+			int posI = tile.getI();
+			int posJ = tile.getJ();
+			String t = "Terrain Type: " + terrain + "\nTile ID: " + tileID + "\nTile Coord: " + posI + ":" + posJ;
+			t += "\n----------------";
+			if (tile.isCityPresent())
+			{
+				City c = tile.getCity();
+				int cityNum = c.getCityNum();
+				String playerN = c.getOwningPlayer().getPlayerName();
+				int pop = c.getPopulation();
+				int mp = c.getManpower();
+				int food = c.getFood();
+				int wood = c.getWood();
+				int stone = c.getStone();
+				t += "\nCity Name: " + cityNum + "\nOwned by: " + playerN + "\nPopulation:" + pop + "\nManpower: " + mp + "\nFood: " + food + "\nWood: " + wood + "\nStone: " + stone;
+				t += "\n----------------";
+			}
+			leftBar.setText(t);
+		}
 	}
 	
 	public void checkKeys()
@@ -100,6 +166,14 @@ public class GameUI {
 	    		handler.getGame().getTutorial().completeStage();
 		}
 		
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_E))
+		{
+			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+				toggleBigBox();
+			if (handler.getGame().getTutorial().getStage() == 2)
+	    		handler.getGame().getTutorial().completeStage();
+		}
+		
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L))
 		{
 			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
@@ -110,6 +184,7 @@ public class GameUI {
 	public void update() {
 		uiManager.update();
 		updateTopBar();
+		updateLeftBar();
 		checkKeys();
 	}
 
@@ -140,6 +215,7 @@ public class GameUI {
 			uiManager.getObjects().get(i).turnOn();
 		toggleLeft();
 		toggleMsg();
+		toggleBigBox();
 	}
 	
 	public void toggleHide(int index)
@@ -174,6 +250,13 @@ public class GameUI {
 		leftBar.toggleHide();
 	}
 	
+	public void toggleBigBox()
+	{
+		bigBox.toggleHide();
+		foodButton.toggleHide();
+		bigBoxActive = !bigBoxActive;
+	}
+	
 	public void toggleMsg()
 	{
 		msg.toggleHide();
@@ -197,5 +280,10 @@ public class GameUI {
 	public void setBounds(int xAmt, int yAmt)
 	{
 		uiManager.setBounds(xAmt, yAmt);
+	}
+	
+	public boolean isBigBoxActive()
+	{
+		return bigBoxActive;
 	}
 }

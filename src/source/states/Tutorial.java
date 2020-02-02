@@ -6,7 +6,7 @@ import source.display.GameUI;
 public class Tutorial {
 	
 	private int stage;
-	private final int MAX_STAGE = 2;
+	private final int MAX_STAGE = 10;
 	private boolean tutorialComplete;
 	private boolean stageComplete;
 	public final boolean ENABLED;
@@ -41,6 +41,8 @@ public class Tutorial {
 	public void completeStage()
 	{
 		stageComplete = true;
+		//System.out.println(stage + " complete");
+		increaseStage();
 	}
 	
 	public int getStage()
@@ -87,7 +89,13 @@ public class Tutorial {
 		}
 		else if (stage == 2)
 		{
-			ui.changeText(GameUI.MSG, "Various actions for this city are displayed.\nNotice you have un-used manpower\nThis means you have unemployed citizens.\nSelect a task from the menu to employ them.");
+			ui.changeText(GameUI.MSG, "Basic tile details are shown\n" + 
+					"Various details for cities are also displayed.\nNotice you have un-used manpower.\nThis means you have unemployed citizens.\nPress E to open the task menu.");
+		}
+		else if (stage == 3)
+		{
+			ui.changeText(GameUI.MSG, "This menu displays actions you can perform\n" + 
+					"Give your citizens something to do.\nYou currently have no wood or stone\nproduction.");
 		}
 	}
 }

@@ -2,6 +2,8 @@ package source.main;
 
 import java.util.ArrayList;
 
+import source.support.Settings;
+
 public class Player {
 	
 	private int playerNumber;
@@ -21,6 +23,14 @@ public class Player {
 	public int getPlayerNumber()
 	{
 		return playerNumber;
+	}
+	
+	public String getPlayerName()
+	{
+		if (playerNumber == Settings.PLAYER_ZERO)
+			return "Human Player";
+		else
+			return "AI";
 	}
 	
 	public ArrayList<City> getCities()

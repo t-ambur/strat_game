@@ -43,6 +43,11 @@ public class City {
 		g.drawImage(cityImg, (int) (tile.getX() - handler.getCamera().getxOffset() + xOffset), (int) (tile.getY() - handler.getCamera().getyOffset() + yOffset), null);
 	}
 	
+	public int getCityNum()
+	{
+		return cityNumber;
+	}
+	
 	public Player getOwningPlayer()
 	{
 		return owningPlayer;

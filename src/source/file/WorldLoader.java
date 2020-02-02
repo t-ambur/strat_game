@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import source.main.Tile;
 import source.support.Assets;
+import source.support.Settings;
 
 public class WorldLoader {
 	// path to the file to load
@@ -90,23 +91,23 @@ public class WorldLoader {
         	
         	for (int j = 0; j < tileSet[i].length; j++) // for each column in that row
         	{
-        		if (data[tileID] == 0)
+        		if (data[tileID] == Settings.T_OCEAN)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileOceanImg,i,j,tileID++);
-        		else if (data[tileID] == 1)
+        		else if (data[tileID] == Settings.T_PLAINS)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tilePlainsImg,i,j,tileID++);
-        		else if (data[tileID] == 2)
+        		else if (data[tileID] == Settings.T_BEACH)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileBeachImg,i,j,tileID++);
-        		else if (data[tileID] == 3)
+        		else if (data[tileID] == Settings.T_FOREST)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileForestImg,i,j,tileID++);
-        		else if (data[tileID] == 4)
+        		else if (data[tileID] == Settings.T_SWAMP)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileSwampImg,i,j,tileID++);
-        		else if (data[tileID] == 5)
+        		else if (data[tileID] == Settings.T_MOUNTAIN)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileMountainImg,i,j,tileID++);
-        		else if (data[tileID] == 6)
+        		else if (data[tileID] == Settings.T_LAKE)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileLakeImg,i,j,tileID++);
-        		else if (data[tileID] == 7)
+        		else if (data[tileID] == Settings.T_DESERT)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileDesertImg,i,j,tileID++);
-        		else if (data[tileID] == 8)
+        		else if (data[tileID] == Settings.T_SNOW)
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileSnowImg,i,j,tileID++);
         		else
         			tileSet[i][j] = new Tile(data[tileID],x,y,Assets.tileErrorImg,i,j,tileID++);
