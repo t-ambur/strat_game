@@ -177,7 +177,7 @@ public class MouseManager implements MouseListener, MouseMotionListener, MouseWh
 				// set the "virtual" (in-use, in-game) mouse positions. It adjusts based on the camera offset 
 				vMouseX = mouseX + handler.getCamera().getxOffset();
 				vMouseY = mouseY + handler.getCamera().getyOffset();
-				System.out.println("x: " + vMouseX + " ,y: " + vMouseY);
+				//System.out.println("x: " + mouseX + " ,y: " + mouseY);
 			}
 		}
 	}

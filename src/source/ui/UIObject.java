@@ -58,21 +58,22 @@ public abstract class UIObject implements ClickListener {
 	public abstract void onClick();
 	
 	public void onMouseMove(MouseEvent e){
-		if (handler == null)
-		{
-			if(bounds.contains(e.getX(), e.getY()))
-				hovering = true;
-			else
-				hovering = false;
-		}
+		//if (handler == null)
+		//{
+		//System.out.println(e.getX() + ":" + e.getY());
+		if(bounds.contains(e.getX(), e.getY()))
+			hovering = true;
 		else
-		{
-			gameBounds = new Rectangle((int) (x - handler.getCamera().getxOffset()) , (int) (y - handler.getCamera().getyOffset()),width,height);
-			if(bounds.contains(handler.getMouseManager().getVMouseX(), handler.getMouseManager().getVMouseY()))
-				hovering = true;
-			else
-				hovering = false;
-		}
+			hovering = false;
+		//}
+		//else
+		//{
+			//gameBounds = new Rectangle((int) (x - handler.getCamera().getxOffset()) , (int) (y - handler.getCamera().getyOffset()),width,height);
+		//	if(bounds.contains(handler.getMouseManager().getVMouseX(), handler.getMouseManager().getVMouseY()))
+		//		hovering = true;
+		//	else
+		//		hovering = false;
+		//}
 	}
 	
 	public void moveBoundsVert(int amt)
