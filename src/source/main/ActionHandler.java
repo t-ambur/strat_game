@@ -98,6 +98,8 @@ public class ActionHandler {
 				{
 					if (selectedTile.isCityPresent())
 					{
+						if (handler.getGame().getTutorial().getStage() == 3)
+				    		handler.getGame().getTutorial().completeStage();
 						City cy = selectedTile.getCity();
 						int status = cy.setProduction(City.FORAGE);
 						if (status != City.NO_ERROR)

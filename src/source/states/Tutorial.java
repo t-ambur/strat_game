@@ -6,7 +6,7 @@ import source.display.GameUI;
 public class Tutorial {
 	
 	private int stage;
-	private final int MAX_STAGE = 3; // UPDATE THIS WHEN ADDING NEW TUTORIAL MESSAGES
+	private final int MAX_STAGE = 4; // UPDATE THIS WHEN ADDING NEW TUTORIAL MESSAGES
 	private boolean tutorialComplete;
 	private boolean stageComplete;
 	public final boolean ENABLED;
@@ -97,7 +97,12 @@ public class Tutorial {
 		else if (stage == 3)
 		{
 			ui.changeText(GameUI.MSG, "This menu displays actions you can perform\n" + 
-					"Give your citizens something to do.\nYou currently have no wood or stone\nproduction.");
+					"Give your citizens something to do.\nYou currently have no wood or stone\nproduction.\nThe number of each type of worker you have\n appears on the left bar (Q).");
+		}
+		else if (stage == 4)
+		{
+			ui.changeText(GameUI.MSG, "Some actions are instant.\nOther actions take time to produce.\n" + 
+					"You can pause the game with (Space Bar).\nIncrease time with (+)\nSlow Time with (-)");
 		}
 	}
 }
