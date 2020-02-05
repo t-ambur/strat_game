@@ -107,13 +107,13 @@ public class GameUI {
 		uiManager.addObject(msg);
 		uiManager.addObject(bigBox);
 		uiManager.addObject(foodButton);
-		//leftBar.setFont(Assets.tnr20);
+		leftBar.setFont(Assets.tnr20);
 		toggleLeft();
 		toggleMsg();
 		bigBoxActive = true; // toggle will turn this off
 		//bigBox.setFont(Assets.tnr20);
 		bigBox.setText("Food Button     Wood Button     Stone Button");
-		foodButton.setText("Forage for\nFood");
+		foodButton.setText("Forage for\nFood (1)");
 		toggleBigBox();
 	}
 	
@@ -124,7 +124,7 @@ public class GameUI {
 		int food = handler.getPlayers()[Settings.PLAYER_ZERO].getFood();
 		int wood = handler.getPlayers()[Settings.PLAYER_ZERO].getWood();
 		int stone = handler.getPlayers()[Settings.PLAYER_ZERO].getStone();
-		topBar.setText("(Q) Tile Detail, (E) Action Menu           Pop= " + pop + " * Manpower= "+manpower+" * Food= " + food + " * Wood= " + wood + " * Stone= " + stone);
+		topBar.setText("(Q) Tile Detail, (E) Action Menu           Pop= " + pop + " * MP= "+manpower+" * Food= " + food + " * Wood= " + wood + " * Stone= " + stone);
 	}
 	
 	public void updateLeftBar()
@@ -148,8 +148,10 @@ public class GameUI {
 				int food = c.getFood();
 				int wood = c.getWood();
 				int stone = c.getStone();
+				int foragers = c.getForagers();
 				t += "\nCity Name: " + cityNum + "\nOwned by: " + playerN + "\nPopulation:" + pop + "\nManpower: " + mp + "\nFood: " + food + "\nWood: " + wood + "\nStone: " + stone;
 				t += "\n----------------";
+				t += "\nForagers: " + foragers;
 			}
 			leftBar.setText(t);
 		}
@@ -185,7 +187,28 @@ public class GameUI {
 		uiManager.update();
 		updateTopBar();
 		updateLeftBar();
+		updateBigBox();
 		checkKeys();
+	}
+	
+	public void updateBigBox()
+	{
+		Tile tile = handler.getActionHandler().getSelectedTile();
+		if (tile != null)
+		{
+			String t = "";
+			if (tile.isCityPresent())
+			{
+				City c = tile.getCity();
+				int cityNum = c.getCityNum();
+				t = "City Name: " + cityNum;
+			}
+			else
+			{
+				t = "You must select a tile with a city in order to perform these tasks";
+			}
+			bigBox.setText(t);
+		}
 	}
 
 	public void render(Graphics2D g) {

@@ -6,7 +6,7 @@ import source.display.GameUI;
 public class Tutorial {
 	
 	private int stage;
-	private final int MAX_STAGE = 10;
+	private final int MAX_STAGE = 3; // UPDATE THIS WHEN ADDING NEW TUTORIAL MESSAGES
 	private boolean tutorialComplete;
 	private boolean stageComplete;
 	public final boolean ENABLED;
@@ -74,6 +74,8 @@ public class Tutorial {
 	
 	public void checkTutorial()
 	{
+		if (stage <= this.MAX_STAGE)
+			ui.changeTitle(GameUI.MSG, "Tutorial");
 		if (stage == 0)
 		{
 			String firstMsg = "You can toggle this log with the \"L\" key\nYou can move the camera with WASD\n or the mouse\nZooming will turn off the UI" +
