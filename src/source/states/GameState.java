@@ -63,7 +63,7 @@ public class GameState extends State {
 		onTop.render(g);
 		gameUI.render(g);
 		// the clock
-		Text.drawString(g, handler.getClock().toStringGame(), handler.getWidth() - 310, 34, false, UITextHolder.DEFAULT_COLOR, Assets.tnr20);
+		Text.drawString(g, handler.getClock().toStringGame(), handler.getWidth() - 330, 34, false, UITextHolder.DEFAULT_COLOR, Assets.tnr20);
 		// RENDER THE MOUSE CURSOR LAST
         g.drawImage(Assets.cursorImg, (int) ((vMx - Settings.cursorImgMiddleWidth) - handler.getCamera().getxOffset()),
         		(int) (vMy - Settings.cursorImgMiddleHeight - handler.getCamera().getyOffset()), null);

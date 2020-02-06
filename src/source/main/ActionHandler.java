@@ -112,6 +112,19 @@ public class ActionHandler {
 				}
 			}
 		}
+		
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE))
+		{
+			handler.getClock().togglePause();
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_PLUS) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_EQUALS))
+		{
+			handler.getClock().increaseSpeed();
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_UNDERSCORE))
+		{
+			handler.getClock().decreaseSpeed();
+		}
 	}
 	
 	public void handleFoodConsumption()

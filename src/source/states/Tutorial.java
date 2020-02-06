@@ -101,8 +101,8 @@ public class Tutorial {
 		}
 		else if (stage == 4)
 		{
-			ui.changeText(GameUI.MSG, "Some actions are instant.\nOther actions take time to produce.\n" + 
-					"You can pause the game with (Space Bar).\nIncrease time with (+)\nSlow Time with (-)");
+			ui.changeText(GameUI.MSG, "Some actions are instant.\nOther actions take time to produce.\nThe game time is displayed in the upper right\n" + 
+					"You can pause the game with (Space Bar).\nIncrease time with (+)\nSlow Time with (-)\n");
 		}
 	}
 }

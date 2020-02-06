@@ -15,6 +15,10 @@ public class Clock {
 		private int gameMonth;
 		private int gameYear;
 		
+		private int tick_speed;
+		
+		public static final int MAX_TICK_SPEED = 30;
+		
 		public Clock()
 		{
 			ticking = false;
@@ -24,6 +28,8 @@ public class Clock {
 			minutes = 0;
 			hours = 0;
 			days = 0;
+			
+			tick_speed = 1;
 			
 			gameDay = 1;
 			gameMonth = 1;
@@ -45,6 +51,18 @@ public class Clock {
 			{
 				ticking = false;
 				paused = true;
+			}
+		}
+		
+		public void togglePause()
+		{
+			if (paused)
+			{
+				start();
+			}
+			else
+			{
+				pause();
 			}
 		}
 		
@@ -85,7 +103,7 @@ public class Clock {
 		
 		public void elapseGameDay()
 		{
-			gameDay++;
+			gameDay += tick_speed;
 			if (gameDay >= 31)
 			{
 				gameMonth++;
@@ -96,6 +114,31 @@ public class Clock {
 					gameMonth = 0;
 				}
 			}
+		}
+		
+		public boolean increaseSpeed()
+		{
+			if (tick_speed < MAX_TICK_SPEED)
+			{
+				tick_speed++;
+				return true;
+			}
+			return false;
+		}
+		
+		public boolean decreaseSpeed()
+		{
+			if (tick_speed > 1)
+			{
+				tick_speed--;
+				return true;
+			}
+			return false;
+		}
+		
+		public int getTickSpeed()
+		{
+			return tick_speed;
 		}
 		
 		public void printTime()
@@ -120,7 +163,16 @@ public class Clock {
 		
 		public String toStringGame()
 		{
-			String gameTime = "Year: " + gameYear + " Month: " + gameMonth + " Day: " + gameDay;
+			String gameTime = "";
+			if (paused)
+			{
+				gameTime = "|| ";
+			}
+			else
+			{
+				gameTime = "> ";
+			}
+			gameTime += "Speed:" + tick_speed + " Year: " + gameYear + " Month: " + gameMonth + " Day: " + gameDay;
 			return gameTime;
 		}
 
