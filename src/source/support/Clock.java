@@ -17,7 +17,7 @@ public class Clock {
 		
 		private int tick_speed;
 		
-		public static final int MAX_TICK_SPEED = 30;
+		public static final int MAX_TICK_SPEED = 10;
 		
 		public Clock()
 		{
@@ -103,7 +103,7 @@ public class Clock {
 		
 		public void elapseGameDay()
 		{
-			gameDay += tick_speed;
+			gameDay ++;
 			if (gameDay >= 31)
 			{
 				gameMonth++;

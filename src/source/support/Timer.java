@@ -52,7 +52,7 @@ public class Timer extends Clock {
 	
 	public boolean secondPassed()
 	{
-		return fpsTimer > SECOND;
+		return fpsTimer > (SECOND/super.getTickSpeed());
 	}
 	
 	public void renderReset()
