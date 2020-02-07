@@ -278,5 +278,10 @@ public class World {
 	{
 		return gameUI;
 	}
-
+	
+	public void setTiles(Tile prv, Tile current)
+	{
+		this.prvSelectedTile = prv;
+		this.selectedTile = current;
+	}
 }

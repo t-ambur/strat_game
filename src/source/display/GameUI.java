@@ -29,6 +29,8 @@ public class GameUI {
 	
 	private UITextButton foodButton;
 	
+	private LogText log;
+	
 	public static final int TOP_BAR = 0, LEFT_BAR = 1, MSG = 2, BIG_BOX = 3;
 	
 	public static final int MSG_WIDTH = 500, MSG_HEIGHT = 400;
@@ -55,6 +57,7 @@ public class GameUI {
 	
 	public void init()
 	{
+		log = new LogText();
 		// Rectangles hold the dimension info for ui
 		Rectangle topBarRect = new Rectangle(0,0,handler.getWidth(),45);
 		Rectangle leftBarRect = new Rectangle(0+handler.getCamera().BOUND_SIZE,0,LEFT_WIDTH,handler.getHeight());
@@ -112,7 +115,6 @@ public class GameUI {
 		toggleMsg();
 		bigBoxActive = true; // toggle will turn this off
 		//bigBox.setFont(Assets.tnr20);
-		bigBox.setText("Food Button     Wood Button     Stone Button");
 		foodButton.setText("Forage for\nFood (1)");
 		toggleBigBox();
 	}
@@ -149,9 +151,18 @@ public class GameUI {
 				int wood = c.getWood();
 				int stone = c.getStone();
 				int foragers = c.getForagers();
+				int woodC = c.getWoodCutters();
+				int stoneH = c.getStoneHarvesters();
+				int pfood = c.getPrvFood();
+				int pwood = c.getPrvWood();
+				int pstone = c.getPrvStone();
 				t += "\nCity Name: " + cityNum + "\nOwned by: " + playerN + "\nPopulation:" + pop + "\nManpower: " + mp + "\nFood: " + food + "\nWood: " + wood + "\nStone: " + stone;
 				t += "\n----------------";
-				t += "\nForagers: " + foragers;
+				t += "\nForagers: " + foragers + "\nWood Cutters: " + woodC + "\nStone Harvesters: " + stoneH;
+				t += "\n----------------";
+				t += "\n---Production last month---\nFood: " + (pfood-pop) + "\nWood: " + pwood + "\nStone: " + pstone;
+				t += "\n----------------\n";
+				t += c.getStatus();
 			}
 			leftBar.setText(t);
 		}
@@ -179,8 +190,13 @@ public class GameUI {
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_L))
 		{
 			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+			{
 				toggleMsg();
+			}
 		}
+		
+		//log.goToRecent();
+		//msg.setText(log.viewLog());
 	}
 	
 	public void update() {
@@ -225,6 +241,7 @@ public class GameUI {
 	{
 		for (int i = 0; i < uiManager.getObjects().size(); i++)
 			uiManager.getObjects().get(i).turnOff();
+		bigBoxActive = false;
 	}
 	
 	public void show(int index)
@@ -236,6 +253,7 @@ public class GameUI {
 	{
 		for (int i = 0; i < uiManager.getObjects().size(); i++)
 			uiManager.getObjects().get(i).turnOn();
+		bigBoxActive = true;
 		toggleLeft();
 		toggleMsg();
 		toggleBigBox();
@@ -255,9 +273,30 @@ public class GameUI {
 	public void changeText(int index, String s)
 	{
 		if (index == MSG)
-			msg.setText(s);
+		{
+			log.addMessage(s);
+			msg.setText(log.viewLog());
+		}
 		else
 			System.err.println("Error: Attempted to change text at unknown index");
+	}
+	
+	public void previousLog()
+	{
+		if (log.goBackMessage())
+		{
+			msg.setText(log.viewLog());
+			changeTitle(MSG,log.getTitle());
+		}
+	}
+	
+	public void forwardLog()
+	{
+		if (log.goForwardMessage())
+		{
+			msg.setText(log.viewLog());
+			changeTitle(MSG, log.getTitle());
+		}
 	}
 	
 	public void changeTitle(int index, String s)
@@ -308,5 +347,10 @@ public class GameUI {
 	public boolean isBigBoxActive()
 	{
 		return bigBoxActive;
+	}
+	
+	public LogText getLog()
+	{
+		return log;
 	}
 }

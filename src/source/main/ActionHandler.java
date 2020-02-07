@@ -18,6 +18,7 @@ public class ActionHandler {
 	
 	// cities owned by the player
 	private ArrayList<City> cities;
+	private int cycleIndex; // used for cycling cities with F1 key
 	
 	// Time management
 	private int calculatedMonth = 1;
@@ -32,6 +33,7 @@ public class ActionHandler {
 		previousTile = null;
 		this.handler = h;
 		cities = new ArrayList<City>();
+		cycleIndex = 0;
 	}
 	
 	public void updateTile(Tile selected, Tile prv)
@@ -49,12 +51,6 @@ public class ActionHandler {
 		Events.cityPlaced = true;
 		City starting = new City(selectedTile, handler, handler.getPlayers()[Settings.PLAYER_ZERO],0);
 		cities.add(starting);
-		handler.getPlayers()[Settings.PLAYER_ZERO].addCity(starting);
-		selectedTile.addCity(starting);
-		starting.addManpower(10);
-		starting.addPopulation(10);
-		starting.addFood(100);
-		starting.getOwningPlayer().updateResources();
 		System.out.println("starting city placed!");
 		if (handler.getGame().getTutorial().getStage() == 0)
     		handler.getGame().getTutorial().completeStage();
@@ -90,6 +86,7 @@ public class ActionHandler {
 	
 	public void checkKeys()
 	{
+		// action manager controls
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_1))
 		{
 			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
@@ -113,9 +110,50 @@ public class ActionHandler {
 			}
 		}
 		
+		// misc controls
+		// cycle through cities
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_F1))
+		{
+			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom() && handler.getPlayers() != null)
+			{
+				ArrayList<City> playerCities = handler.getPlayers()[0].getCities();
+				if (playerCities != null && selectedTile != null && playerCities.size() > 0)
+				{
+					if (cycleIndex >= playerCities.size())
+					{
+						cycleIndex = 0;
+					}
+					previousTile = selectedTile;
+					selectedTile = playerCities.get(cycleIndex).getTile();
+					cycleIndex++;
+					handler.getWorld().setTiles(previousTile, selectedTile);
+					if (handler.getGame().getTutorial().getStage() == 5)
+			    		handler.getGame().getTutorial().completeStage();
+				}
+			}
+		}
+		// handle log messages
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_P))
+		{
+			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+			{
+				handler.getUI().forwardLog();
+			}
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_O))
+		{
+			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+			{
+				handler.getUI().previousLog();
+			}
+		}
+		
+		// time controls
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE))
 		{
 			handler.getClock().togglePause();
+			if (handler.getGame().getTutorial().getStage() == 4)
+	    		handler.getGame().getTutorial().completeStage();
 		}
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_PLUS) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_EQUALS))
 		{

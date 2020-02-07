@@ -22,8 +22,11 @@ public class City {
 	private int population;
 	
 	private int food;
+	private int pfood;
 	private int wood;
+	private int pwood;
 	private int stone;
+	private int pstone;
 	
 	// Production
 	private boolean producing;
@@ -34,6 +37,8 @@ public class City {
 	public static final int ALREADY_PRODUCING = -1, NO_MANPOWER = -2, NO_ERROR = -3, NOT_ASSIGNED = -4;
 	//
 	private int foragers;
+	private int woodCutters;
+	private int stoneHarvesters;
 	
 	public City(Tile tile, Handler h, Player p, int num)
 	{
@@ -46,13 +51,25 @@ public class City {
 		producing = false;
 		productionType = NOT_ASSIGNED;
 		
-		manpower = 0;
-		population = 0;
-		food = 0;
+		manpower = 10;
+		population = 10;
+		food = 100;
 		wood = 0;
 		stone = 0;
 		
+		pfood = 0;
+		pwood = 0;
+		pstone = 0;
+		
 		foragers = 0;
+		woodCutters = 0;
+		stoneHarvesters = 0;
+		
+		status = "";
+		
+		owningPlayer.addCity(this);
+		tile.addCity(this);
+		owningPlayer.updateResources();
 	}
 	
 	public void render(Graphics2D g)
@@ -130,25 +147,26 @@ public class City {
 		Random rand = new Random();
 		int forage_sum = 0;
 		int failed_forages = 0;
-		// generate between 0 to 3 food per forager
+		// generate between 0 to 5 food per forager
 		for (int i = 0; i < foragers; i++)
 		{
-			int forage_amount = rand.nextInt(3);
+			int forage_amount = 0;
+			if (tile.getT() == Settings.T_PLAINS || tile.getT() == Settings.T_FOREST)
+				forage_amount = rand.nextInt(6) + 1;
+			else
+				forage_amount = rand.nextInt(4);
+			
 			if (forage_amount == 0)
 			{
-				if (tile.getT() == Settings.T_PLAINS || tile.getT() == Settings.T_FOREST)
-					forage_amount = 1;
-				else
-				{
-					failed_forages++;
-				}
+				failed_forages++;
 			}
 			forage_sum += forage_amount;
 		}
+		pfood = forage_sum;
 		food += forage_sum;
 		if (failed_forages > 0)
 		{
-			status += (failed_forages + " foragers failed to find food");
+			status += (failed_forages + " foragers failed to find any food.\n");
 		}
 	}
 	
@@ -277,5 +295,35 @@ public class City {
 	public int getForagers()
 	{
 		return foragers;
+	}
+	
+	public Tile getTile()
+	{
+		return tile;
+	}
+	
+	public int getPrvFood()
+	{
+		return pfood;
+	}
+	
+	public int getPrvWood()
+	{
+		return pwood;
+	}
+	
+	public int getPrvStone()
+	{
+		return pstone;
+	}
+	
+	public int getWoodCutters()
+	{
+		return woodCutters;
+	}
+	
+	public int getStoneHarvesters()
+	{
+		return stoneHarvesters;
 	}
 }

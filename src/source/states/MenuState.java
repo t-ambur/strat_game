@@ -87,6 +87,7 @@ public class MenuState extends State {
     		@Override
     		public void onClick() {
     			handler.getClock().start();
+    			handler.getClock().togglePause();
     			State.setState(handler.getGame().gameState);
     		}
     	}));

@@ -6,6 +6,8 @@ import source.file.OptionsData;
 import source.input.KeyManager;
 import source.input.MouseManager;
 import source.support.Clock;
+import source.display.GameUI;
+import source.display.LogText;
 
 public class Handler {
 	
@@ -70,5 +72,10 @@ public class Handler {
 
 	public void setWorld(World world) {
 		this.world = world;
+	}
+	
+	public GameUI getUI()
+	{
+		return getWorld().getUI();
 	}
 }
