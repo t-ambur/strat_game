@@ -114,7 +114,7 @@ public class Tutorial {
 		}
 		else if (stage == MAX_STAGE)
 		{
-			ui.changeText(GameUI.MSG, "This is the end of the tutorial.\nGood Luck!\nRemember, (L) toggles this log.\nYou can use (P) and (O) to cycle through log messages." + 
+			ui.changeText(GameUI.MSG, "This is the end of the tutorial.\nGood Luck!\nRemember, (L) toggles this log.\nYou can use (O) and (P) to cycle through log messages." + 
 					"");
 		}
 	}

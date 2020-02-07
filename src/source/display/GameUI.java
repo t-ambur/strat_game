@@ -192,11 +192,13 @@ public class GameUI {
 			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
 			{
 				toggleMsg();
+				log.goToRecent();
+				msg.setText(log.viewLog());
+				msg.setTitle(log.getTitle());
 			}
 		}
 		
-		//log.goToRecent();
-		//msg.setText(log.viewLog());
+		
 	}
 	
 	public void update() {

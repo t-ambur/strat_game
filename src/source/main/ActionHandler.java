@@ -103,7 +103,12 @@ public class ActionHandler {
 						{
 							GameUI ui = handler.getWorld().getUI();
 							ui.changeTitle(ui.MSG, "Production Error");
-							ui.changeText(ui.MSG, "Failed to forage food");
+							String t = "Failed to train forager:\n";
+							if (status == City.ALREADY_PRODUCING)
+								t += "You are already training another unit!";
+							else if (status == City.NO_MANPOWER)
+								t += "You have no manpower!\n";
+							ui.changeText(ui.MSG, t);
 						}
 					}
 				}

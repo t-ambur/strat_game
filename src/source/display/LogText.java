@@ -17,7 +17,7 @@ public class LogText {
 	public void goToRecent()
 	{
 		if (stored > 0)
-			viewing = stored--;
+			viewing = stored-1;
 		else
 			viewing = LOG_LENGTH-1;
 	}
