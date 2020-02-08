@@ -33,8 +33,8 @@ public class City {
 	private int productionType;
 	private String status;
 	//
-	public static final int FORAGE = 0;
-	public static final int ALREADY_PRODUCING = -1, NO_MANPOWER = -2, NO_ERROR = -3, NOT_ASSIGNED = -4;
+	public static final int FORAGE = 0, WOOD_CUT = 1, STONE_HARVEST = 2;
+	public static final int ALREADY_PRODUCING = -1, NO_MANPOWER = -2, NO_ERROR = -3, NOT_ASSIGNED = -4, WRONG_TYPE = -5;
 	//
 	private int foragers;
 	private int woodCutters;
@@ -124,22 +124,42 @@ public class City {
 			return NO_MANPOWER;
 		}
 		
+		producing = true;
+		
 		if (type == FORAGE)
 		{
-			producing = true;
 			productionType = FORAGE;
 			manpower -= 1;
 			foragers += 1;
 			producing = false;
+			return NO_ERROR;
+		}
+		else if (type == WOOD_CUT)
+		{
+			productionType = WOOD_CUT;
+			manpower -= 1;
+			woodCutters += 1;
+			producing = false;
+			return NO_ERROR;
+		}
+		else if (type == STONE_HARVEST)
+		{
+			productionType = STONE_HARVEST;
+			manpower -= 1;
+			stoneHarvesters += 1;
+			producing = false;
+			return NO_ERROR;
 		}
 		
-		return NO_ERROR;
+		return WRONG_TYPE;
 	}
 	
 	public void gatherResources()
 	{
 		status = "";
 		gatherFood();
+		gatherWood();
+		gatherStone();
 	}
 	
 	public void gatherFood()
@@ -168,6 +188,36 @@ public class City {
 		{
 			status += (failed_forages + " foragers failed to find any food.\n");
 		}
+	}
+	
+	public void gatherStone()
+	{
+		Random rand = new Random();
+		int forage_sum = 0;
+		// generate
+		for (int i = 0; i < foragers; i++)
+		{
+			int forage_amount = 0;
+			if (tile.getT() == Settings.T_MOUNTAIN)
+				forage_amount = rand.nextInt(6) + 1;
+			else
+				forage_amount = rand.nextInt(4) + 1;
+			
+			forage_sum += forage_amount;
+		}
+		pstone = forage_sum;
+		stone += forage_sum;
+	}
+	
+	public void gatherWood()
+	{
+		int amount = 3;
+		if (tile.getT() == Settings.T_MOUNTAIN || tile.getT() == Settings.T_BEACH || tile.getT() == Settings.T_DESERT)
+			amount = 1;
+		else if (tile.getT() == Settings.T_FOREST)
+			amount = 5;
+		pwood = amount;
+		wood += amount;
 	}
 	
 	public String getStatus()
@@ -234,7 +284,9 @@ public class City {
 		}
 		else if (food > 0)
 		{
-			return amount - food;
+			int shortage = amount - food;
+			food = 0;
+			return shortage;
 		}
 		else
 		{

@@ -28,7 +28,9 @@ public class GameUI {
 	private UITextHolder bigBox;
 	
 	private UITextButton foodButton;
-	
+	private UITextButton woodButton;
+	private UITextButton stoneButton;
+
 	private LogText log;
 	
 	public static final int TOP_BAR = 0, LEFT_BAR = 1, MSG = 2, BIG_BOX = 3;
@@ -44,6 +46,8 @@ public class GameUI {
 	public static final int BUTTON_W = 150, BUTTON_H = 100; //150 100
 	
 	public static final int FOODBUTTON_X_OFFSET = BIGBOX_OFFSET + 10, FOODBUTTON_Y_OFFSET = BIGBOX_Y_OFFSET + 35;
+	public static final int WOODBUTTON_X_OFFSET = FOODBUTTON_X_OFFSET + BUTTON_W + 5, WOODBUTTON_Y_OFFSET = FOODBUTTON_Y_OFFSET;
+	public static final int STONEBUTTON_X_OFFSET = WOODBUTTON_X_OFFSET + BUTTON_W + 5, STONEBUTTON_Y_OFFSET = WOODBUTTON_Y_OFFSET;
 	
 	private boolean bigBoxActive;
 	
@@ -66,6 +70,8 @@ public class GameUI {
 		
 		// Rectangles to hold the button info
 		Rectangle foodButtonRect = new Rectangle(FOODBUTTON_X_OFFSET, FOODBUTTON_Y_OFFSET, BUTTON_W, BUTTON_H);
+		Rectangle woodButtonRect = new Rectangle(WOODBUTTON_X_OFFSET, WOODBUTTON_Y_OFFSET, BUTTON_W, BUTTON_H);
+		Rectangle stoneButtonRect = new Rectangle(STONEBUTTON_X_OFFSET, STONEBUTTON_Y_OFFSET, BUTTON_W, BUTTON_H);
 		
 		// info at top of screen
 		topBar = new UITextHolder(topBarRect, Assets.topBarImg, new Point(10, 5), false, handler, new ClickListener() {
@@ -102,6 +108,18 @@ public class GameUI {
     			System.out.println("clicked");
     		}
     	});
+		woodButton = new UITextButton(woodButtonRect, Assets.buttonImgs, new ClickListener() {
+    		@Override
+    		public void onClick() {
+    			System.out.println("clicked");
+    		}
+    	});
+		stoneButton = new UITextButton(stoneButtonRect, Assets.buttonImgs, new ClickListener() {
+    		@Override
+    		public void onClick() {
+    			System.out.println("clicked");
+    		}
+    	});
 		msg.setTextPos((int)(msg.getX() + 10), (int)(msg.getY() + 50));
 		msg.setTitlePos((int)(msg.getX() + 10), (int)(msg.getY() + 28));
 		// add objects and toggle off menus
@@ -110,12 +128,16 @@ public class GameUI {
 		uiManager.addObject(msg);
 		uiManager.addObject(bigBox);
 		uiManager.addObject(foodButton);
+		uiManager.addObject(woodButton);
+		uiManager.addObject(stoneButton);
 		leftBar.setFont(Assets.tnr20);
 		toggleLeft();
 		toggleMsg();
 		bigBoxActive = true; // toggle will turn this off
 		//bigBox.setFont(Assets.tnr20);
-		foodButton.setText("Forage for\nFood (1)");
+		foodButton.setText("Train Food\nForager (1)");
+		woodButton.setText("Train Wood\nCutter (2)");
+		stoneButton.setText("Train Stone\nHarvester (3)");
 		toggleBigBox();
 	}
 	
@@ -318,6 +340,8 @@ public class GameUI {
 	{
 		bigBox.toggleHide();
 		foodButton.toggleHide();
+		woodButton.toggleHide();
+		stoneButton.toggleHide();
 		bigBoxActive = !bigBoxActive;
 	}
 	

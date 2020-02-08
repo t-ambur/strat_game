@@ -114,6 +114,60 @@ public class ActionHandler {
 				}
 			}
 		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_2))
+		{
+			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+			{
+				if (handler.getWorld().getUI().isBigBoxActive())
+				{
+					if (selectedTile.isCityPresent())
+					{
+						if (handler.getGame().getTutorial().getStage() == 3)
+				    		handler.getGame().getTutorial().completeStage();
+						City cy = selectedTile.getCity();
+						int status = cy.setProduction(City.WOOD_CUT);
+						if (status != City.NO_ERROR)
+						{
+							GameUI ui = handler.getWorld().getUI();
+							ui.changeTitle(ui.MSG, "Production Error");
+							String t = "Failed to train wood cutter:\n";
+							if (status == City.ALREADY_PRODUCING)
+								t += "You are already training another unit!";
+							else if (status == City.NO_MANPOWER)
+								t += "You have no manpower!\n";
+							ui.changeText(ui.MSG, t);
+						}
+					}
+				}
+			}
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_3))
+		{
+			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+			{
+				if (handler.getWorld().getUI().isBigBoxActive())
+				{
+					if (selectedTile.isCityPresent())
+					{
+						if (handler.getGame().getTutorial().getStage() == 3)
+				    		handler.getGame().getTutorial().completeStage();
+						City cy = selectedTile.getCity();
+						int status = cy.setProduction(City.STONE_HARVEST);
+						if (status != City.NO_ERROR)
+						{
+							GameUI ui = handler.getWorld().getUI();
+							ui.changeTitle(ui.MSG, "Production Error");
+							String t = "Failed to train stone harvester:\n";
+							if (status == City.ALREADY_PRODUCING)
+								t += "You are already training another unit!";
+							else if (status == City.NO_MANPOWER)
+								t += "You have no manpower!\n";
+							ui.changeText(ui.MSG, t);
+						}
+					}
+				}
+			}
+		}
 		
 		// misc controls
 		// cycle through cities
