@@ -246,7 +246,31 @@ public class ActionHandler {
 				else
 				{
 					// people starve
-					cy.reduceManpower(foodNeeded);
+					int toStarve = cy.reduceManpower(foodNeeded);
+					if (toStarve > 0)
+					{
+						boolean noPeople = cy.seriousStarvation(toStarve);
+						if (noPeople)
+						{
+							// remove city
+							int num = cy.getCityNum();
+							cities.remove(num);
+							cy.getOwningPlayer().removeCity(num);
+							cy.getTile().removeCity();
+							GameUI ui = handler.getUI();
+							if (cy.getOwningPlayer().getCities().size() <= 0)
+							{
+								ui.changeText(ui.MSG, "All Cities have fallen!\nCity Name: " + cy.getCityNum() + " starved!");
+								ui.changeTitle(ui.MSG, "GAME OVER");
+								handler.getClock().togglePause();
+							}
+							else
+							{
+								ui.changeText(ui.MSG, "A city has fallen due to starvation!\nName: " + cy.getCityNum());
+								ui.changeTitle(ui.MSG, "STARVATION");
+							}
+						}
+					}
 				}
 			}
 		}

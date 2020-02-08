@@ -40,6 +40,8 @@ public class City {
 	private int woodCutters;
 	private int stoneHarvesters;
 	
+	public static final int PROFESSION_AMOUNT = 3;
+	
 	public City(Tile tile, Handler h, Player p, int num)
 	{
 		this.tile = tile;
@@ -195,7 +197,7 @@ public class City {
 		Random rand = new Random();
 		int forage_sum = 0;
 		// generate
-		for (int i = 0; i < foragers; i++)
+		for (int i = 0; i < stoneHarvesters; i++)
 		{
 			int forage_amount = 0;
 			if (tile.getT() == Settings.T_MOUNTAIN)
@@ -216,8 +218,8 @@ public class City {
 			amount = 1;
 		else if (tile.getT() == Settings.T_FOREST)
 			amount = 5;
-		pwood = amount;
-		wood += amount;
+		pwood = amount*woodCutters;
+		wood += amount*woodCutters;
 	}
 	
 	public String getStatus()
@@ -233,17 +235,71 @@ public class City {
 		this.manpower += amount;
 	}
 	
-	public boolean reduceManpower(int amount) 
+	public int reduceManpower(int amount) 
 	{
 		if (manpower - amount >= 0)
 		{
 			manpower -= amount;
-			return true;
+			population -= amount;
+			return 0;
+		}
+		else if (manpower > 0)
+		{
+			int shortage = amount - manpower;
+			manpower = 0;
+			return shortage;
 		}
 		else
 		{
-			return false;
+			return amount;
 		}
+	}
+	
+	public boolean seriousStarvation(int amount)
+	{
+		if (manpower <= 0)
+		{
+			Random rand = new Random();
+			while (amount > 0)
+			{
+				int profession = rand.nextInt(PROFESSION_AMOUNT) + 1;
+				if (profession == WOOD_CUT)
+				{
+					while (amount > 0 && woodCutters > 0)
+					{
+						woodCutters--;
+						amount--;
+					}
+					if (woodCutters <= 0)
+						profession++;
+				}
+				if (profession == STONE_HARVEST)
+				{
+					while (amount > 0 && stoneHarvesters > 0)
+					{
+						stoneHarvesters--;
+						amount--;
+					}
+					if (stoneHarvesters <= 0)
+						profession++;
+				}
+				else if (allStarved())
+				{
+					foragers -= amount;
+					if (foragers <= 0)
+					{
+						return true;
+					}
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public boolean allStarved()
+	{
+		return woodCutters == 0 && stoneHarvesters == 0;
 	}
 	
 	public int getPopulation() {

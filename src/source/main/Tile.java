@@ -63,6 +63,12 @@ public class Tile {
 		this.city = c;
 	}
 	
+	public void removeCity()
+	{
+		hasCity = false;
+		this.city = null;
+	}
+	
 	public City getCity()
 	{
 		if (isCityPresent())
