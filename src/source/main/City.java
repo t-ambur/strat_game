@@ -17,6 +17,9 @@ public class City {
 	private static final int xOffset = 7;
 	private static final int yOffset = 7;
 	
+	// stats
+	private int defense;
+	
 	// resources
 	private int manpower;
 	private int population;
@@ -52,6 +55,8 @@ public class City {
 		
 		producing = false;
 		productionType = NOT_ASSIGNED;
+		
+		defense = 0;
 		
 		manpower = 10;
 		population = 10;
@@ -433,5 +438,10 @@ public class City {
 	public int getStoneHarvesters()
 	{
 		return stoneHarvesters;
+	}
+	
+	public int getDefense()
+	{
+		return defense;
 	}
 }

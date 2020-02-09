@@ -30,8 +30,12 @@ public class GameUI {
 	private UITextButton foodButton;
 	private UITextButton woodButton;
 	private UITextButton stoneButton;
+	private UITextButton wallButton;
 
 	private LogText log;
+	
+	private int page;
+	private static final int MAX_PAGES = 2;
 	
 	public static final int TOP_BAR = 0, LEFT_BAR = 1, MSG = 2, BIG_BOX = 3;
 	
@@ -45,9 +49,9 @@ public class GameUI {
 	// buttons
 	public static final int BUTTON_W = 150, BUTTON_H = 100; //150 100
 	
-	public static final int FOODBUTTON_X_OFFSET = BIGBOX_OFFSET + 10, FOODBUTTON_Y_OFFSET = BIGBOX_Y_OFFSET + 35;
-	public static final int WOODBUTTON_X_OFFSET = FOODBUTTON_X_OFFSET + BUTTON_W + 5, WOODBUTTON_Y_OFFSET = FOODBUTTON_Y_OFFSET;
-	public static final int STONEBUTTON_X_OFFSET = WOODBUTTON_X_OFFSET + BUTTON_W + 5, STONEBUTTON_Y_OFFSET = WOODBUTTON_Y_OFFSET;
+	public static final int BUTTON1_X_OFFSET = BIGBOX_OFFSET + 10, BUTTON1_Y_OFFSET = BIGBOX_Y_OFFSET + 35;
+	public static final int BUTTON2_X_OFFSET = BUTTON1_X_OFFSET + BUTTON_W + 5, BUTTON2_Y_OFFSET = BUTTON1_Y_OFFSET;
+	public static final int BUTTON3_X_OFFSET = BUTTON2_X_OFFSET + BUTTON_W + 5, BUTTON3_Y_OFFSET = BUTTON2_Y_OFFSET;
 	
 	private boolean bigBoxActive;
 	
@@ -61,6 +65,7 @@ public class GameUI {
 	
 	public void init()
 	{
+		page = 0;
 		log = new LogText();
 		// Rectangles hold the dimension info for ui
 		Rectangle topBarRect = new Rectangle(0,0,handler.getWidth(),45);
@@ -69,9 +74,9 @@ public class GameUI {
 		Rectangle bigBoxRect = new Rectangle(BIGBOX_OFFSET,BIGBOX_Y_OFFSET,BIGBOX_W,BIGBOX_H);
 		
 		// Rectangles to hold the button info
-		Rectangle foodButtonRect = new Rectangle(FOODBUTTON_X_OFFSET, FOODBUTTON_Y_OFFSET, BUTTON_W, BUTTON_H);
-		Rectangle woodButtonRect = new Rectangle(WOODBUTTON_X_OFFSET, WOODBUTTON_Y_OFFSET, BUTTON_W, BUTTON_H);
-		Rectangle stoneButtonRect = new Rectangle(STONEBUTTON_X_OFFSET, STONEBUTTON_Y_OFFSET, BUTTON_W, BUTTON_H);
+		Rectangle button1Rect = new Rectangle(BUTTON1_X_OFFSET, BUTTON1_Y_OFFSET, BUTTON_W, BUTTON_H);
+		Rectangle button2Rect = new Rectangle(BUTTON2_X_OFFSET, BUTTON2_Y_OFFSET, BUTTON_W, BUTTON_H);
+		Rectangle button3Rect = new Rectangle(BUTTON3_X_OFFSET, BUTTON3_Y_OFFSET, BUTTON_W, BUTTON_H);
 		
 		// info at top of screen
 		topBar = new UITextHolder(topBarRect, Assets.topBarImg, new Point(10, 5), false, handler, new ClickListener() {
@@ -102,19 +107,25 @@ public class GameUI {
     		}
     	});
 		// buttons
-		foodButton = new UITextButton(foodButtonRect, Assets.buttonImgs, new ClickListener() {
+		foodButton = new UITextButton(button1Rect, Assets.buttonImgs, new ClickListener() {
     		@Override
     		public void onClick() {
     			System.out.println("clicked");
     		}
     	});
-		woodButton = new UITextButton(woodButtonRect, Assets.buttonImgs, new ClickListener() {
+		woodButton = new UITextButton(button2Rect, Assets.buttonImgs, new ClickListener() {
     		@Override
     		public void onClick() {
     			System.out.println("clicked");
     		}
     	});
-		stoneButton = new UITextButton(stoneButtonRect, Assets.buttonImgs, new ClickListener() {
+		stoneButton = new UITextButton(button3Rect, Assets.buttonImgs, new ClickListener() {
+    		@Override
+    		public void onClick() {
+    			System.out.println("clicked");
+    		}
+    	});
+		wallButton = new UITextButton(button1Rect, Assets.buttonImgs, new ClickListener() {
     		@Override
     		public void onClick() {
     			System.out.println("clicked");
@@ -130,6 +141,7 @@ public class GameUI {
 		uiManager.addObject(foodButton);
 		uiManager.addObject(woodButton);
 		uiManager.addObject(stoneButton);
+		uiManager.addObject(wallButton);
 		leftBar.setFont(Assets.tnr20);
 		toggleLeft();
 		toggleMsg();
@@ -138,7 +150,10 @@ public class GameUI {
 		foodButton.setText("Train Food\nForager (1)");
 		woodButton.setText("Train Wood\nCutter (2)");
 		stoneButton.setText("Train Stone\nHarvester (3)");
+		wallButton.setText("Build Wooden\nWalls (1)");
 		toggleBigBox();
+		wallButton.toggleHide();
+		bigBox.setText("Production Units         use (Z) and (X) to cycle pages");
 	}
 	
 	public void updateTopBar()
@@ -204,7 +219,9 @@ public class GameUI {
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_E))
 		{
 			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+			{
 				toggleBigBox();
+			}
 			if (handler.getGame().getTutorial().getStage() == 2)
 	    		handler.getGame().getTutorial().completeStage();
 		}
@@ -217,6 +234,20 @@ public class GameUI {
 				log.goToRecent();
 				msg.setText(log.viewLog());
 				msg.setTitle(log.getTitle());
+			}
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_Z))
+		{
+			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+			{
+				pageDown();
+			}
+		}
+		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_X))
+		{
+			if (handler.getCamera().getZoom() == handler.getCamera().getDefaultZoom())
+			{
+				pageUp();
 			}
 		}
 		
@@ -241,7 +272,14 @@ public class GameUI {
 			{
 				City c = tile.getCity();
 				int cityNum = c.getCityNum();
-				t = "City Name: " + cityNum;
+				if (page == 0)
+				{
+					t +="Production Units         use (Z) and (X) to cycle pages";
+				}
+				else if (page == 1)
+				{
+					t +="Basic Structures         use (Z) and (X) to cycle pages";
+				}
 			}
 			else
 			{
@@ -339,10 +377,48 @@ public class GameUI {
 	public void toggleBigBox()
 	{
 		bigBox.toggleHide();
+		toggleButtons();
+		bigBoxActive = !bigBoxActive;
+	}
+	
+	public void pageUp()
+	{
+		toggleButtons();
+		if (page <= 0)
+		{
+			page++;
+		}
+		else // page == 1
+		{
+			page = 0;
+		}
+	}
+	
+	public void pageDown()
+	{
+		toggleButtons();
+		if (page >= 1)
+		{
+			page--;
+		}
+		else // page == 0
+		{
+			page = 1;
+		}
+	}
+	
+	public void toggleButtons()
+	{
 		foodButton.toggleHide();
 		woodButton.toggleHide();
 		stoneButton.toggleHide();
-		bigBoxActive = !bigBoxActive;
+		if (page == 1)
+			togglePage1();
+	}
+	
+	public void togglePage1()
+	{
+		
 	}
 	
 	public void toggleMsg()
@@ -378,5 +454,10 @@ public class GameUI {
 	public LogText getLog()
 	{
 		return log;
+	}
+	
+	public int getUIpage()
+	{
+		return page;
 	}
 }

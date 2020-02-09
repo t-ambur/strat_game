@@ -86,6 +86,8 @@ public class ActionHandler {
 	
 	public void checkKeys()
 	{
+		if (selectedTile == null)
+			return;
 		// action manager controls
 		if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_1))
 		{
